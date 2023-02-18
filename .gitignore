@@ -103,5 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
+# virtualenv file
+venv
+
 # IDE folder
 .idea
+
+# data base
+db.sqlite3
