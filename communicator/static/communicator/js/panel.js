@@ -1,6 +1,8 @@
 $(document).ready(function () {
     const canvas = document.getElementById("panel");
     const context = canvas.getContext("2d");
+    canvas.width = canvas.getBoundingClientRect().width;
+    canvas.height = canvas.getBoundingClientRect().height;
     let coordinatesHistory = []
     let dCoordinates = {'x': 0, 'y': 0}
 
@@ -13,12 +15,12 @@ $(document).ready(function () {
             coordinatesHistory[1] = newCoordinates;
             dCoordinates.x = (newCoordinates.x - coordinatesHistory[0].x)*10000;
             dCoordinates.y = (newCoordinates.y - coordinatesHistory[0].y)*10000;
-            console.log(dCoordinates)
         }
     })
 
-    function Button(plusX, name){
+    function Button(name, width, plusX){
         this.plusX = plusX;
+        this.width = width;
         this.path = undefined;
         this.selected = false;
         this.name = name
@@ -26,22 +28,19 @@ $(document).ready(function () {
     }
 
     Button.prototype.drawButton = function (){
-        //create your shape data in a Path2D object
         this.path = new Path2D()
-        const x = 10
-        // path.rect(250 + plusX, 350, 200*x, 100*x)
-        this.path.rect(25 + this.plusX,25,32*x,32*x)
+        this.path.rect(25 + this.plusX,25,this.width,this.width)
         this.path.closePath()
 
 //draw your shape data to the context
         if (this.selected){
-            context.fillStyle = "rgba(201,198,198,0.5)";
+            context.fillStyle = "rgba(154,152,152,0.5)";
         } else {
             context.fillStyle = "rgba(225,225,225,0.5)";
         }
         context.fill(this.path);
-        context.lineWidth = 2;
-        context.strokeStyle = "#000000";
+        context.lineWidth = 3;
+        context.strokeStyle = "#245488FF";
         context.stroke(this.path);
     }
     Button.prototype.deleteSelection = function () {
@@ -66,7 +65,7 @@ $(document).ready(function () {
     }
     Cursor.prototype.drawCursor = function (){
         context.beginPath();
-        context.fillStyle = '#FF0CFF';
+        context.fillStyle = '#000000';
         context.arc(this.x, this.y, this.r, 0, 2*Math.PI);
         context.fill();
         context.closePath();
@@ -81,10 +80,10 @@ $(document).ready(function () {
             this.y-=dY;
         }
     }
-    var c = new Cursor(110, 50);
-    const button1 = new Button(0, 'button1');
-    const button2 = new Button(360, 'button2');
-    const button3 = new Button(720, 'button3');
+    let c = new Cursor(110, 50);
+    const button1 = new Button('button1', canvas.width/3.5,  0);
+    const button2 = new Button('button2', canvas.width/3.5,  canvas.width/3);
+    const button3 = new Button('button3', canvas.width/3.5,  2*canvas.width/3);
 
     function drawPanel(){
         button1.drawButton();
@@ -113,6 +112,7 @@ $(document).ready(function () {
 
     function panelLoop(){
         context.clearRect(0,0, canvas.width, canvas.height);
+        console.log(canvas.height, canvas.width)
         drawPanel();
         choiceEvent();
         c.moveCursor(dCoordinates.x, dCoordinates.y);
