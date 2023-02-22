@@ -3,16 +3,29 @@ html, body {
     height: 100%;
     overflow: hidden;
     display: block;
+    background-color: #191919;
+}
+header {
+    border-bottom: 2px solid #3a3a3a;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 2.5em;
+}
+
+#name{
+    color: #fc3;
 }
 
 #selectedLetter{
     margin-top: 40px;
     text-align: center;
     font-size: 3em;
+    color: #ffffff;
 }
 
 #input{
-    border:3px solid #245488;
+    border:3px solid #fc3;
     border-radius: 20px;
     padding-left: 0;
     padding-right: 0;
@@ -26,19 +39,22 @@ html, body {
     font-size: 2em;
     text-align: center;
     line-height: 75px;
+    color: #ffffff;
 }
 .input_video{
     display: none;
 }
 .output_canvas{
-    height: 255px;
-    width: 400px;
+    height: 190px;
+    width: 300px;
     padding-left: 0;
     padding-right: 0;
     margin-top: 10px;
     margin-left: 10px;
     margin-right: auto;
     display: block;
+    border: 3px solid #fc3;
+    border-radius: 20px;
 }
 
 
@@ -55,10 +71,16 @@ html, body {
 
 @media screen and (max-width: 1090px) {
     #panel{
+        width: 800px;
+    }
+    #input{
         width: 650px;
     }
     .output_canvas{
         width: 250px;
         height: 140px;
+    }
+    #selectedLetter{
+        margin-top: 400px;
     }
 }
