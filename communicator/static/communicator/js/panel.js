@@ -1,4 +1,23 @@
 $(document).ready(function () {
+    let code = 65;
+    let canvasSelector = $('#panel');
+    canvasSelector.on('button1', function () {
+        code--;
+        if (code < 65){
+            code += 90 - 64;
+        }
+    });
+    canvasSelector.on('button2', function () {
+        let inputSelector = $('#input')
+        let text = inputSelector.text();
+        inputSelector.text(text+String.fromCharCode(code));
+    });
+    canvasSelector.on('button3', function () {
+        code++;
+        if (code > 90){
+            code += 65 - 91;
+        }
+    });
     const canvas = document.getElementById("panel");
     const context = canvas.getContext("2d");
     canvas.width = canvas.getBoundingClientRect().width;
@@ -6,7 +25,7 @@ $(document).ready(function () {
     let coordinatesHistory = []
     let dCoordinates = {'x': 0, 'y': 0}
 
-    $('#panel').on('coordinates', function (event) {
+     canvasSelector.on('coordinates', function (event) {
         let newCoordinates = event.detail;
         if (coordinatesHistory.length < 2){
             coordinatesHistory.push(newCoordinates);
@@ -41,6 +60,18 @@ $(document).ready(function () {
         context.fill(this.path);
         context.lineWidth = 3;
         context.strokeStyle = "#ffc71e";
+        context.font = "bold 44px verdana, sans-serif";
+        context.textAlign = "center"
+        context.textBaseline = "center";
+        context.fillStyle = "#ffffff"
+        const nowTime = new Date();
+        if (this.name !== "button2"){
+            context.fillText(String.fromCharCode(code), 25 + this.plusX + this.width / 2, 25 + this.width / 2)
+        } else if (!this.selected){
+            context.fillText('print', 25 + this.plusX + this.width / 2, 25 + this.width / 2)
+        } else {
+            context.fillText((nowTime.getSeconds() - this.timer.getSeconds()).toFixed(0), 25 + this.plusX + this.width / 2, 25 + this.width / 2)
+        }
         context.stroke(this.path);
     }
     Button.prototype.deleteSelection = function () {
@@ -52,7 +83,7 @@ $(document).ready(function () {
         if (!this.selected){
             this.selected = true;
             this.timer = new Date();
-        } else if (nowTime.getSeconds() - this.timer.getSeconds() > 3){
+        } else if (nowTime.getSeconds() - this.timer.getSeconds() > 2){
             let downEvent = new CustomEvent(this.name);
             canvas.dispatchEvent(downEvent);
             this.deleteSelection();

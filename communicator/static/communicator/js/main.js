@@ -14,6 +14,7 @@ $(document).ready(function () {
             results.image, 0, 0, canvasElement.width, canvasElement.height);
         if (results.multiFaceLandmarks) {
             for (const landmarks of results.multiFaceLandmarks) {
+                console.log((landmarks).length)
                 let coordinates = [-landmarks[468].x, landmarks[468].y]
                 let coordinatesEvent = new CustomEvent('coordinates', {
                     detail: {
